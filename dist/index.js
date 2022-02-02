@@ -8823,6 +8823,10 @@ async function run() {
 			bodyFileContent = fs.readFileSync('readme.txt', {
 				encoding: 'utf8',
 			});
+
+			let startChangelog = bodyFileContent.split('== Changelog ==')[1];
+			let endChangelog = 'XXX ' + startChangelog.split('= ')[0] + ' XXX';
+			bodyFileContent = endChangelog;
 		}
 
 		// Create a release
