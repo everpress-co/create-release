@@ -43,9 +43,16 @@ async function run() {
 				encoding: 'utf8',
 			});
 
+			if (-1 === bodyFileContent.search('= ' + tag + ' =')) {
+				core.setFailed('NO Changelog Found');
+			}
+
 			let startChangelog = bodyFileContent.split('== Changelog ==')[1];
-			let endChangelog = 'XXX ' + startChangelog.split('= ')[0] + ' XXX';
-			bodyFileContent = endChangelog;
+			startChangelog = startChangelog.split('= ' + tag + ' =')[1];
+			startChangelog = startChangelog.split('= ')[0];
+			console.warn(startChangelog);
+
+			bodyFileContent = startChangelog;
 		}
 
 		// Create a release
