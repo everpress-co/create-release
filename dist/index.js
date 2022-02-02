@@ -8824,14 +8824,14 @@ async function run() {
 				encoding: 'utf8',
 			});
 
-			console.warn(bodyFileContent);
+			let tag2 = '1.7';
 
-			if (-1 === bodyFileContent.search('= ' + tag + ' =')) {
-				core.setFailed('No Changelog for version ' + tag + ' found!');
+			if (-1 === bodyFileContent.search('= ' + tag2 + ' =')) {
+				core.setFailed('No Changelog for version ' + tag2 + ' found!');
 			}
 
 			let startChangelog = bodyFileContent.split('== Changelog ==')[1];
-			startChangelog = startChangelog.split('= ' + tag + ' =')[1];
+			startChangelog = startChangelog.split('= ' + tag2 + ' =')[1];
 			startChangelog = startChangelog.split('= ')[0];
 			console.warn(startChangelog);
 
