@@ -43,10 +43,9 @@ async function run() {
 				encoding: 'utf8',
 			});
 
-			console.warn(bodyFileContent);
-
 			if (-1 === bodyFileContent.search('= ' + tag + ' =')) {
 				core.setFailed('No Changelog for version ' + tag + ' found!');
+				return;
 			}
 
 			let startChangelog = bodyFileContent.split('= ' + tag + ' =')[1];
