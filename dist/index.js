@@ -8830,8 +8830,7 @@ async function run() {
 				core.setFailed('No Changelog for version ' + tag + ' found!');
 			}
 
-			let startChangelog = bodyFileContent.split('== Changelog ==')[1];
-			startChangelog = startChangelog.split('= ' + tag + ' =')[1];
+			let startChangelog = bodyFileContent.split('= ' + tag + ' =')[1];
 			startChangelog = startChangelog.split('= ')[0];
 
 			bodyFileContent = startChangelog;
