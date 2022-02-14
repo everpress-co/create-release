@@ -39,19 +39,42 @@ async function run() {
 				core.setFailed(error.message);
 			}
 		} else {
-			bodyFileContent = fs.readFileSync('readme.txt', {
-				encoding: 'utf8',
-			});
+			if (fs.existsSync('README.md')) {
+				bodyFileContent = fs.readFileSync('README.md', {
+					encoding: 'utf8',
+				});
+				if (-1 === bodyFileContent.search('## ' + tag)) {
+					core.setFailed(
+						'No Changelog for version ' + tag + ' found!'
+					);
+					return;
+				}
 
-			if (-1 === bodyFileContent.search('= ' + tag + ' =')) {
-				core.setFailed('No Changelog for version ' + tag + ' found!');
+				let startChangelog = bodyFileContent.split('## ' + tag)[1];
+				startChangelog = startChangelog.split('## ')[0];
+
+				bodyFileContent = startChangelog;
+			} else if (fs.existsSync('readme.txt')) {
+				bodyFileContent = fs.readFileSync('readme.txt', {
+					encoding: 'utf8',
+				});
+				if (-1 === bodyFileContent.search('= ' + tag + ' =')) {
+					core.setFailed(
+						'No Changelog for version ' + tag + ' found!'
+					);
+					return;
+				}
+
+				let startChangelog = bodyFileContent.split(
+					'= ' + tag + ' ='
+				)[1];
+				startChangelog = startChangelog.split('= ')[0];
+
+				bodyFileContent = startChangelog;
+			} else {
+				core.setFailed('No Readme found!');
 				return;
 			}
-
-			let startChangelog = bodyFileContent.split('= ' + tag + ' =')[1];
-			startChangelog = startChangelog.split('= ')[0];
-
-			bodyFileContent = startChangelog;
 		}
 
 		// Create a release
